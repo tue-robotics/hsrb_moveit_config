@@ -37,7 +37,7 @@ controller_list:
       - wrist_flex_joint
       - wrist_roll_joint
       - wrist_ft_sensor_frame_joint
-  - name: omni_trajectory_controller
+  - name: omni_base_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
     default: true
