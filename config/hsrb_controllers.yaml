@@ -26,8 +26,8 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 controller_list:
-  - name: arm_trajectory_controller
-    action_ns: follow_joint_trajectory
+  - name: body
+    action_ns: joint_trajectory_action
     type: FollowJointTrajectory
     default: true
     joints:
