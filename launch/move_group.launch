@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
 Copyright (c) 2015, Toyota Motor Corporation
 All rights reserved.
@@ -41,12 +42,12 @@ POSSIBILITY OF SUCH DAMAGE.
   <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
 
   <!-- Verbose Mode Option -->
-  <arg name="info" default="$(arg debug)" />  
+  <arg name="info" default="$(arg debug)" />
   <arg unless="$(arg info)" name="command_args" value="" />
   <arg     if="$(arg info)" name="command_args" value="--debug" />
 
   <!-- move_group settings -->
-  <arg name="allow_trajectory_execution" default="true"/> 
+  <arg name="allow_trajectory_execution" default="true"/>
   <arg name="fake_execution" default="false"/>
   <arg name="max_safe_path_cost" default="1"/>
   <arg name="jiggle_fraction" default="0.05" />
@@ -102,5 +103,5 @@ POSSIBILITY OF SUCH DAMAGE.
     <!-- Remap joint_states -->
     <remap from="joint_states" to="$(arg joint_states_topic)" />
   </node>
-  
+
 </launch>
