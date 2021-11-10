@@ -42,9 +42,7 @@ controller_list:
     type: FollowJointTrajectory
     default: true
     joints:
-      - odom_x
-      - odom_y
-      - odom_t
+      - world_joint
   - name: gripper_controller
     action_ns: follow_joint_trajectory
     type: FollowJointTrajectory
