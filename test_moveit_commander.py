@@ -6,7 +6,7 @@ import sys
 import copy
 import rospy
 import moveit_commander
-import moveit_msgs.msg
+from moveit_msgs.msg import PlanningSceneWorld
 import geometry_msgs.msg
 
 try:
@@ -31,7 +31,7 @@ rospy.init_node('move_group_python_interface_tutorial', anonymous=True)
 group_name = "arm"
 
 robot = moveit_commander.RobotCommander()
-scene = moveit_commander.PlanningSceneInterface()
+scene = moveit_commander.PlanningSceneInterface(ns='/hero', synchronous=True)
 move_group = moveit_commander.MoveGroupCommander(group_name)
 
 # print("============ Reference frame: %s" % move_group.get_planning_frame())
@@ -140,9 +140,29 @@ box_pose.pose.orientation.w = 1.0
 box_pose.pose.position.z = 0.11  # above the panda_hand frame
 box_name = "box"
 scene.add_box(box_name, box_pose, size=(0.075, 0.075, 0.075))
-breakpoint()
 
 
-## implement usage of ed moveit
-## rosservice call hero/ed/moveit should publish the collision env to a specific topic
-## ed moveit installed, but hero_bringup in feature/moveit does not work, grasping_tmc (as in ed_moveit) dus not exist
+def callback(data):
+    rospy.loginfo(rospy.get_caller_id() + "It works")
+    foo = data.collision_objects
+    breakpoint()
+
+# rospy.wait_for_service('/hero/ed/moveit_scene')
+# add_two_ints = rospy.
+rospy.Subscriber("/hero/planning_scene_world", PlanningSceneWorld, callback)
+rospy.spin()
+
+
+
+
+
+# touch_links = robot.get_link_names(group="gripper")
+# scene.attach_box(move_group.get_end_effector_link(), box_name, touch_links=touch_links)
+
+# scene.remove_attached_object(move_group.get_end_effector_link(), name=box_name)
+#
+# scene.remove_world_object(box_name)
+
+# implement usage of ed moveit
+# rosservice call hero/ed/moveit should publish the collision env to a specific topic
+# ed moveit installed, but hero_bringup in feature/moveit does not work, grasping_tmc (as in ed_moveit) dus not exist
