@@ -1,5 +1,7 @@
 # Python 2/3 compatibility imports
 from __future__ import print_function
+
+from std_srvs.srv import Trigger
 from six.moves import input
 
 import sys
@@ -59,9 +61,6 @@ move_group = moveit_commander.MoveGroupCommander(group_name)
 # move_group.go(joint_goal, wait=True)
 # # Calling ``stop()`` ensures that there is no residual movement
 # move_group.stop()
-
-
-
 
 
 # Plan to a pose goal
@@ -133,28 +132,33 @@ move_group = moveit_commander.MoveGroupCommander(group_name)
 
 
 # Add object
-# no objects seem to be added.....
 box_pose = geometry_msgs.msg.PoseStamped()
 box_pose.header.frame_id = move_group.get_end_effector_link()
 box_pose.pose.orientation.w = 1.0
 box_pose.pose.position.z = 0.11  # above the panda_hand frame
 box_name = "box"
 scene.add_box(box_name, box_pose, size=(0.075, 0.075, 0.075))
+breakpoint()
 
 
-def callback(data):
-    rospy.loginfo(rospy.get_caller_id() + "It works")
-    foo = data.collision_objects
-    breakpoint()
+# def callback(data):
+#     rospy.loginfo(rospy.get_caller_id() + "It works")
+#     foo = data.collision_objects
+#     breakpoint()
+#
+#
+# # rospy.wait_for_service('/hero/ed/moveit_scene')
+# rospy.Subscriber("/hero/planning_scene_world", PlanningSceneWorld, callback)
+# rospy.spin()
 
-# rospy.wait_for_service('/hero/ed/moveit_scene')
-# add_two_ints = rospy.
-rospy.Subscriber("/hero/planning_scene_world", PlanningSceneWorld, callback)
-rospy.spin()
+rospy.wait_for_service('hero/ed/moveit_scene')
+try:
+    moveit_call = rospy.ServiceProxy('hero/ed/moveit_scene', Trigger)
+    moveit_call()
+except rospy.ServiceException as e:
+    print('This is broken!')
 
-
-
-
+print("This works!")
 
 # touch_links = robot.get_link_names(group="gripper")
 # scene.attach_box(move_group.get_end_effector_link(), box_name, touch_links=touch_links)
@@ -162,7 +166,3 @@ rospy.spin()
 # scene.remove_attached_object(move_group.get_end_effector_link(), name=box_name)
 #
 # scene.remove_world_object(box_name)
-
-# implement usage of ed moveit
-# rosservice call hero/ed/moveit should publish the collision env to a specific topic
-# ed moveit installed, but hero_bringup in feature/moveit does not work, grasping_tmc (as in ed_moveit) dus not exist
