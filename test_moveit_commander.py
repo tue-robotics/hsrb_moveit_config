@@ -27,7 +27,7 @@ from moveit_commander.conversions import pose_to_list
 
 # https://ros-planning.github.io/moveit_tutorials/doc/move_group_python_interface/move_group_python_interface_tutorial.html#getting-started
 
-
+breakpoint()
 moveit_commander.roscpp_initialize(sys.argv + ['__ns:=/hero'])
 rospy.init_node('move_group_python_interface_tutorial', anonymous=True)
 group_name = "arm"
@@ -83,28 +83,28 @@ move_group = moveit_commander.MoveGroupCommander(group_name)
 #     z: 0.1990716511305686
 #     w: 0.6777525677675129
 
-# # https://answers.ros.org/question/255647/orientation-constraint-for-link-tip-is-probably-incorrect-warning/
+# https://answers.ros.org/question/255647/orientation-constraint-for-link-tip-is-probably-incorrect-warning/
 # pose_goal = geometry_msgs.msg.Pose()
 # # pose_goal = move_group.get_current_pose(end_effector_link=move_group.get_end_effector_link())
 # # normalized home position orientation
 # # still not working, not really an idea why.....
-# pose_goal.orientation.x = 0.284738041
-# pose_goal.orientation.y = -0.6644
-# pose_goal.orientation.z = 0.189825361
-# pose_goal.orientation.w = 0.6644
-# pose_goal.position.x = -0.3
-# pose_goal.position.y = -0.1
-# pose_goal.position.z = 0.7
-#
-#
-# move_group.set_pose_target(pose_goal)
-# plan = move_group.go(wait=True)
-# move_group.stop()
-# move_group.clear_pose_targets()
+# pose_goal.orientation.x = 0.21000
+# pose_goal.orientation.y = -0.37000
+# pose_goal.orientation.z = 1.08000
+# pose_goal.orientation.w = 0.00000
+# pose_goal.position.x = 0.50000
+# pose_goal.position.y = -0.190000
+# pose_goal.position.z = 0.84000
+pose_goal = move_group.get_random_pose()
+
+move_group.set_pose_target(pose_goal)
+plan = move_group.go(wait=True)
+move_group.stop()
+move_group.clear_pose_targets()
 
 
 
-## Plan carthesian path (based on paths, does not work....)
+# # Plan carthesian path (based on paths, does not work....)
 # waypoints = []
 # scale = 1.0
 # wpose = move_group.get_current_pose().pose
@@ -131,34 +131,34 @@ move_group = moveit_commander.MoveGroupCommander(group_name)
 
 
 
-# Add object
-box_pose = geometry_msgs.msg.PoseStamped()
-box_pose.header.frame_id = move_group.get_end_effector_link()
-box_pose.pose.orientation.w = 1.0
-box_pose.pose.position.z = 0.11  # above the panda_hand frame
-box_name = "box"
-scene.add_box(box_name, box_pose, size=(0.075, 0.075, 0.075))
-breakpoint()
-
-
-# def callback(data):
-#     rospy.loginfo(rospy.get_caller_id() + "It works")
-#     foo = data.collision_objects
-#     breakpoint()
+# # Add object
+# box_pose = geometry_msgs.msg.PoseStamped()
+# box_pose.header.frame_id = move_group.get_end_effector_link()
+# box_pose.pose.orientation.w = 1.0
+# box_pose.pose.position.z = 0.11  # above the panda_hand frame
+# box_name = "box"
+# scene.add_box(box_name, box_pose, size=(0.075, 0.075, 0.075))
+# breakpoint()
 #
 #
-# # rospy.wait_for_service('/hero/ed/moveit_scene')
-# rospy.Subscriber("/hero/planning_scene_world", PlanningSceneWorld, callback)
-# rospy.spin()
-
-rospy.wait_for_service('hero/ed/moveit_scene')
-try:
-    moveit_call = rospy.ServiceProxy('hero/ed/moveit_scene', Trigger)
-    moveit_call()
-except rospy.ServiceException as e:
-    print('This is broken!')
-
-print("This works!")
+# # def callback(data):
+# #     rospy.loginfo(rospy.get_caller_id() + "It works")
+# #     foo = data.collision_objects
+# #     breakpoint()
+# #
+# #
+# # # rospy.wait_for_service('/hero/ed/moveit_scene')
+# # rospy.Subscriber("/hero/planning_scene_world", PlanningSceneWorld, callback)
+# # rospy.spin()
+#
+# rospy.wait_for_service('hero/ed/moveit_scene')
+# try:
+#     moveit_call = rospy.ServiceProxy('hero/ed/moveit_scene', Trigger)
+#     moveit_call()
+# except rospy.ServiceException as e:
+#     print('This is broken!')
+#
+# print("This works!")
 
 # touch_links = robot.get_link_names(group="gripper")
 # scene.attach_box(move_group.get_end_effector_link(), box_name, touch_links=touch_links)
