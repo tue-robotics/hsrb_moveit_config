@@ -55,9 +55,7 @@ POSSIBILITY OF SUCH DAMAGE.
         <joint name="head_tilt_joint" />
     </group>
     <group name="base">
-        <joint name="odom_x" />
-        <joint name="odom_y" />
-        <joint name="odom_r" />
+        <joint name="world_joint" />
     </group>
     <group name="whole_body">
         <group name="arm" />
